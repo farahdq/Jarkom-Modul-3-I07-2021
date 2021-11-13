@@ -81,10 +81,10 @@ Lama waktu DHCP server meminjamkan alamat IP kepada Client yang melalui Switch1 
 
 
 
-# NO 3
+### NO 3
 Client yang melalui Switch1 mendapatkan range IP dari [prefix IP].1.20 - [prefix IP].1.99 dan [prefix IP].1.150 - [prefix IP].1.169 
 
-#Jawaban
+###Jawaban
 
 Pada subnet '10.41.1.0' tambahkan:
 
@@ -93,10 +93,10 @@ Pada subnet '10.41.1.0' tambahkan:
     range 10.41.1.150 10.41.1.169;
 ```
 
-# NO 4 
+### NO 4 
 Client yang melalui Switch3 mendapatkan range IP dari [prefix IP].3.30 - [prefix IP].3.50
 
-#Jawaban
+###Jawaban
 
 Pada subnet '10.41.3.0' tambahkan:
 
@@ -104,10 +104,10 @@ Pada subnet '10.41.3.0' tambahkan:
     range 10.41.3.30 10.41.3.50;
 ```
 
-# NO 5
+### NO 5
 Client mendapatkan DNS dari EniesLobby dan client dapat terhubung dengan internet melalui DNS tersebut.
 
-#Jawaban
+###Jawaban
 
 Pada kedua subnet '10.41.1.0' dan '10.41.3.0' tambahkan:
 
@@ -115,10 +115,10 @@ Pada kedua subnet '10.41.1.0' dan '10.41.3.0' tambahkan:
     option domain-name-servers 10.41.2.2, 192.168.122.1
 ```
 
-# NO 6
+### NO 6
 Lama waktu DHCP server meminjamkan alamat IP kepada Client yang melalui Switch1 selama 6 menit sedangkan pada client yang melalui Switch3 selama 12 menit. Dengan waktu maksimal yang dialokasikan untuk peminjaman alamat IP selama 120 menit.
 
-#Jawaban
+###Jawaban
 
 Pada subnet '10.41.1.0' ubah 'default-lease-time' dan 'max-lease-time' menjadi:
 
@@ -133,6 +133,7 @@ Pada subnet '10.41.3.0' ubah 'default-lease-time' dan 'max-lease-time' menjadi:
     default-lease-time 720;
     max-lease-time 7200;
 ```
+##
 
 ## NO 7
 Luffy dan Zoro berencana menjadikan Skypie sebagai server untuk jual beli kapal yang dimilikinya dengan alamat IP yang tetap dengan IP [prefix IP].3.69
