@@ -47,6 +47,7 @@ Foosha sebagai DHCP Relay
 Gunakan 'apt-get install isc-dhcp-relay'.
 
 Pada foosha, tambahkan pada file '/etc/default/isc-dhcp-relay' menjadi:
+
 ```shell
 # What servers should the DHCP relay forward requests to?
 SERVERS="10.41.2.4"
@@ -57,6 +58,7 @@ INTERFACES="eth1 eth2 eth3"
 # Additional options that are passed to the DHCP relay daemon?
 OPTIONS=""
 ```
+
 SERVERS mengarah ke jipangu yaitu '10.41.2.4' dan INTERFACES kepada 'eth1 eth2 eth3'.
 Kemudian restart DHCP relay dengan command '/etc/init.d/isc-dhcp-relay restart'.
 
@@ -68,21 +70,69 @@ Pada .bashrc
 
 [![image.png](https://i.postimg.cc/dtLhm3Rm/image.png)](https://postimg.cc/6yx6B9my)
 
-## NO 3
+## NO 3,4,5,6
+
+Ada beberapa kriteria yang ingin dibuat oleh Luffy dan Zoro, yaitu:
+Semua client yang ada HARUS menggunakan konfigurasi IP dari DHCP Server.
+Client yang melalui Switch1 mendapatkan range IP dari [prefix IP].1.20 - [prefix IP].1.99 dan [prefix IP].1.150 - [prefix IP].1.169 (3)
+Client yang melalui Switch3 mendapatkan range IP dari [prefix IP].3.30 - [prefix IP].3.50 (4)
+Client mendapatkan DNS dari EniesLobby dan client dapat terhubung dengan internet melalui DNS tersebut. (5)
+Lama waktu DHCP server meminjamkan alamat IP kepada Client yang melalui Switch1 selama 6 menit sedangkan pada client yang melalui Switch3 selama 12 menit. Dengan waktu maksimal yang dialokasikan untuk peminjaman alamat IP selama 120 menit. (6)
+
+
+
+# NO 3
 Client yang melalui Switch1 mendapatkan range IP dari [prefix IP].1.20 - [prefix IP].1.99 dan [prefix IP].1.150 - [prefix IP].1.169 
 
-## Jawaban
+#Jawaban
 
+Pada subnet '10.41.1.0' tambahkan:
 
+```shell
+    range 10.41.1.20 10.41.1.99;
+    range 10.41.1.150 10.41.1.169;
+```
 
-## NO 4 
+# NO 4 
 Client yang melalui Switch3 mendapatkan range IP dari [prefix IP].3.30 - [prefix IP].3.50
 
-## NO 5
-Client mendapatkan DNS dari EniesLobby dan client dapat terhubung dengan internet melalui DNS tersebut. 
+#Jawaban
 
-## NO 6
+Pada subnet '10.41.3.0' tambahkan:
+
+```shell
+    range 10.41.3.30 10.41.3.50;
+```
+
+# NO 5
+Client mendapatkan DNS dari EniesLobby dan client dapat terhubung dengan internet melalui DNS tersebut.
+
+#Jawaban
+
+Pada kedua subnet '10.41.1.0' dan '10.41.3.0' tambahkan:
+
+```shell
+    option domain-name-servers 10.41.2.2, 192.168.122.1
+```
+
+# NO 6
 Lama waktu DHCP server meminjamkan alamat IP kepada Client yang melalui Switch1 selama 6 menit sedangkan pada client yang melalui Switch3 selama 12 menit. Dengan waktu maksimal yang dialokasikan untuk peminjaman alamat IP selama 120 menit.
+
+#Jawaban
+
+Pada subnet '10.41.1.0' ubah 'default-lease-time' dan 'max-lease-time' menjadi:
+
+```shell
+    default-lease-time 360;
+    max-lease-time 7200;
+```
+
+Pada subnet '10.41.3.0' ubah 'default-lease-time' dan 'max-lease-time' menjadi:
+
+```shell
+    default-lease-time 720;
+    max-lease-time 7200;
+```
 
 ## NO 7
 Luffy dan Zoro berencana menjadikan Skypie sebagai server untuk jual beli kapal yang dimilikinya dengan alamat IP yang tetap dengan IP [prefix IP].3.69
