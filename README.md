@@ -21,19 +21,22 @@ EniesLobby sebagai DNS Server.
 Gunakan command 'apt-get install bind9'.
 
 Pada .bashrc
-![image](https://user-images.githubusercontent.com/77782259/141472142-891ac670-97eb-4ec8-a4dd-8257c7b26542.png)\
+
+![image](https://user-images.githubusercontent.com/77782259/141472142-891ac670-97eb-4ec8-a4dd-8257c7b26542.png)
 
 Jipangu sebagai DHCP Server.
 Gunakan 'apt-get install isc-dhcp-server'.
 
 Pada .Bashrc
-![image](https://user-images.githubusercontent.com/77782259/141472266-6da7944e-cd53-4ef7-818f-50f249242742.png)\
+
+![image](https://user-images.githubusercontent.com/77782259/141472266-6da7944e-cd53-4ef7-818f-50f249242742.png)
 
 Water7 sebagai Proxy Server. G
 unakan 'apt-get install squid'.
 
 Pada .bashrc
-![image](https://user-images.githubusercontent.com/77782259/141472465-99aa0e93-3988-4072-8011-9943914b8f4c.png)\
+
+![image](https://user-images.githubusercontent.com/77782259/141472465-99aa0e93-3988-4072-8011-9943914b8f4c.png)
 
 ## NO 2
 Foosha sebagai DHCP Relay 
@@ -58,9 +61,11 @@ SERVERS mengarah ke jipangu yaitu '10.41.2.4' dan INTERFACES kepada 'eth1 eth2 e
 Kemudian restart DHCP relay dengan command '/etc/init.d/isc-dhcp-relay restart'.
 
 Pada script.sh
+
 [![image.png](https://i.postimg.cc/SQwGMBCs/image.png)](https://postimg.cc/hh1xF3CW)
 
 Pada .bashrc
+
 [![image.png](https://i.postimg.cc/dtLhm3Rm/image.png)](https://postimg.cc/6yx6B9my)
 
 ## NO 3
