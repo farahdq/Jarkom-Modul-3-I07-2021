@@ -79,14 +79,14 @@ Client yang melalui Switch3 mendapatkan range IP dari [prefix IP].3.30 - [prefix
 Client mendapatkan DNS dari EniesLobby dan client dapat terhubung dengan internet melalui DNS tersebut. (5)
 Lama waktu DHCP server meminjamkan alamat IP kepada Client yang melalui Switch1 selama 6 menit sedangkan pada client yang melalui Switch3 selama 12 menit. Dengan waktu maksimal yang dialokasikan untuk peminjaman alamat IP selama 120 menit. (6)
 
-
+Pada jipangu, dalam '/etc/default/isc-dhcp-server' tambahkan 'INTERFACES="eth0"' terlebih dahulu.
 
 ### NO 3
 Client yang melalui Switch1 mendapatkan range IP dari [prefix IP].1.20 - [prefix IP].1.99 dan [prefix IP].1.150 - [prefix IP].1.169 
 
-###Jawaban
+### Jawaban
 
-Pada subnet '10.41.1.0' tambahkan:
+Pada subnet '10.41.1.0' terminal 1 tambahkan:
 
 ```shell
     range 10.41.1.20 10.41.1.99;
@@ -96,9 +96,9 @@ Pada subnet '10.41.1.0' tambahkan:
 ### NO 4 
 Client yang melalui Switch3 mendapatkan range IP dari [prefix IP].3.30 - [prefix IP].3.50
 
-###Jawaban
+### Jawaban
 
-Pada subnet '10.41.3.0' tambahkan:
+Pada subnet '10.41.3.0' terminal 3 tambahkan:
 
 ```shell
     range 10.41.3.30 10.41.3.50;
@@ -107,9 +107,9 @@ Pada subnet '10.41.3.0' tambahkan:
 ### NO 5
 Client mendapatkan DNS dari EniesLobby dan client dapat terhubung dengan internet melalui DNS tersebut.
 
-###Jawaban
+### Jawaban
 
-Pada kedua subnet '10.41.1.0' dan '10.41.3.0' tambahkan:
+Pada kedua subnet '10.41.1.0' terminal 1 dan '10.41.3.0' terminal 3 tambahkan:
 
 ```shell
     option domain-name-servers 10.41.2.2, 192.168.122.1
@@ -118,21 +118,60 @@ Pada kedua subnet '10.41.1.0' dan '10.41.3.0' tambahkan:
 ### NO 6
 Lama waktu DHCP server meminjamkan alamat IP kepada Client yang melalui Switch1 selama 6 menit sedangkan pada client yang melalui Switch3 selama 12 menit. Dengan waktu maksimal yang dialokasikan untuk peminjaman alamat IP selama 120 menit.
 
-###Jawaban
+### Jawaban
 
-Pada subnet '10.41.1.0' ubah 'default-lease-time' dan 'max-lease-time' menjadi:
+Pada subnet '10.41.1.0' terminal 1 ubah 'default-lease-time' dan 'max-lease-time' menjadi:
 
 ```shell
     default-lease-time 360;
     max-lease-time 7200;
 ```
 
-Pada subnet '10.41.3.0' ubah 'default-lease-time' dan 'max-lease-time' menjadi:
+Pada subnet '10.41.3.0' terminal 3 ubah 'default-lease-time' dan 'max-lease-time' menjadi:
 
 ```shell
     default-lease-time 720;
     max-lease-time 7200;
 ```
+###
+Kemudian restart isc-DHCP menggunakan command 'service isc-dhcp-server restart'.
+
+Pada setiap client, dalam file '/etc/network/interfaces' tambahkan:
+
+```shell
+auto eth0
+iface eth0 inet dhcp
+```
+
+Checking pada 'Loguetown' pada terminal 1.
+Menggunakan command 'ip a', dapat kita lihat IP adalah '10.41.1.32' dimana masih dalam range 1.20 - 1.99.
+
+[![image.png](https://i.postimg.cc/mDtVwGT5/image.png)](https://postimg.cc/VrPjfprq)
+
+Lease time 360 (6 menit).
+
+[![image.png](https://i.postimg.cc/X7VLHFN5/image.png)](https://postimg.cc/py6KymFV)
+
+Checking pada 'TottoLand' pada terminal 3.
+Menggunakan command 'ip a', dapat kita lihat IP adalah '10.41.3.34' dimana masih dalam range 3.30 - 3.50.
+
+[![image.png](https://i.postimg.cc/FR3pqVJy/image.png)](https://postimg.cc/ZBY6v3Hn)
+
+Lease time 720 (12 menit).
+
+[![image.png](https://i.postimg.cc/mkVYfXZH/image.png)](https://postimg.cc/LgYYjV19)
+
+###
+
+Pada .bashrc
+
+[![image.png](https://i.postimg.cc/Kz2BKSRT/image.png)](https://postimg.cc/3ytd6qjr)
+
+Pada script.sh
+
+[![image.png](https://i.postimg.cc/DyJ0Kpz3/image.png)](https://postimg.cc/VdwmqRMK)
+[![image.png](https://i.postimg.cc/cHCZB6gG/image.png)](https://postimg.cc/McChW6m9)
+
 ##
 
 ## NO 7
