@@ -8,6 +8,10 @@
 
 ### Julius Adetya Eka Bhaswara 	  (05111942000026)
 
+## Topology 
+
+![Screenshot 2021-11-13 095532](https://user-images.githubusercontent.com/73812417/141603253-010e7a88-3a5b-4853-8143-b5024110497f.png)
+
 ## NO 1
 Luffy bersama Zoro berencana membuat peta tersebut dengan kriteria EniesLobby sebagai DNS Server, Jipangu sebagai DHCP Server, Water7 sebagai Proxy Server 
 
