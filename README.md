@@ -17,22 +17,51 @@ Luffy bersama Zoro berencana membuat peta tersebut dengan kriteria EniesLobby se
 
 ## Jawaban
 
+EniesLobby sebagai DNS Server.
+Gunakan command 'apt-get install bind9'.
+
+Pada .bashrc
 ![image](https://user-images.githubusercontent.com/77782259/141472142-891ac670-97eb-4ec8-a4dd-8257c7b26542.png)\
-Konfigurasi untuk EniesLobby sebagai DNS Server
 
+Jipangu sebagai DHCP Server.
+Gunakan 'apt-get install isc-dhcp-server'.
+
+Pada .Bashrc
 ![image](https://user-images.githubusercontent.com/77782259/141472266-6da7944e-cd53-4ef7-818f-50f249242742.png)\
-Konfigurasi untuk Jipangu sebagai DHCP Server
 
+Water7 sebagai Proxy Server. G
+unakan 'apt-get install squid'.
+
+Pada .bashrc
 ![image](https://user-images.githubusercontent.com/77782259/141472465-99aa0e93-3988-4072-8011-9943914b8f4c.png)\
-Konfigurasi Water7 sebagai Proxy Server
 
 ## NO 2
 Foosha sebagai DHCP Relay 
 
 ## Jawaban
 
-![image](https://user-images.githubusercontent.com/77782259/141473474-b6b1d3b0-2a37-4373-83df-52b111888dec.png)\
-Konfigurasi Foosha sebagai DHCP Relay
+Foosha sebagai DHCP Relay 
+Gunakan 'apt-get install isc-dhcp-relay'.
+
+Pada foosha, tambahkan pada file '/etc/default/isc-dhcp-relay' menjadi:
+```shell
+# What servers should the DHCP relay forward requests to?
+SERVERS="10.41.2.4"
+
+# On what interfaces should the DHCP relay (dhrelay) serve DHCP requests?
+INTERFACES="eth1 eth2 eth3"
+
+# Additional options that are passed to the DHCP relay daemon?
+OPTIONS=""
+```
+SERVERS mengarah ke jipangu yaitu '10.41.2.4' dan INTERFACES kepada 'eth1 eth2 eth3'.
+Kemudian restart DHCP relay dengan command '/etc/init.d/isc-dhcp-relay restart'.
+
+Pada script.sh
+[![image.png](https://i.postimg.cc/SQwGMBCs/image.png)](https://postimg.cc/hh1xF3CW)
+
+Pada .bashrc
+[![image.png](https://i.postimg.cc/dtLhm3Rm/image.png)](https://postimg.cc/6yx6B9my)
 
 ## NO 3
 Client yang melalui Switch1 mendapatkan range IP dari [prefix IP].1.20 - [prefix IP].1.99 dan [prefix IP].1.150 - [prefix IP].1.169 
