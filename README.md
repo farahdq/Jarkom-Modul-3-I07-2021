@@ -20,7 +20,7 @@ Luffy bersama Zoro berencana membuat peta tersebut dengan kriteria EniesLobby se
 EniesLobby sebagai DNS Server.
 Gunakan command `apt-get install bind9`.
 
-Pada .bashrc
+Pada EniesLobby .bashrc
 
 ![image](https://user-images.githubusercontent.com/77782259/141472142-891ac670-97eb-4ec8-a4dd-8257c7b26542.png)
 
@@ -28,7 +28,7 @@ Pada .bashrc
 Jipangu sebagai DHCP Server.
 Gunakan `apt-get install isc-dhcp-server`.
 
-Pada .Bashrc
+Pada Jipangu .Bashrc
 
 ![image](https://user-images.githubusercontent.com/77782259/141472266-6da7944e-cd53-4ef7-818f-50f249242742.png)
 
@@ -36,7 +36,7 @@ Pada .Bashrc
 Water7 sebagai Proxy Server. 
 Gunakan `apt-get install squid`.
 
-Pada .bashrc
+Pada Water7 .bashrc
 
 ![image](https://user-images.githubusercontent.com/77782259/141472465-99aa0e93-3988-4072-8011-9943914b8f4c.png)
 
@@ -64,12 +64,12 @@ OPTIONS=""
 SERVERS mengarah ke jipangu yaitu `10.41.2.4` dan INTERFACES kepada `eth1 eth2 eth3`.
 Kemudian restart DHCP relay dengan command `/etc/init.d/isc-dhcp-relay restart`.
 
-Pada script.sh
+Pada Foosha script.sh
 
 [![image.png](https://i.postimg.cc/SQwGMBCs/image.png)](https://postimg.cc/hh1xF3CW)
 
 
-Pada .bashrc
+Pada Foosha .bashrc
 
 [![image.png](https://i.postimg.cc/dtLhm3Rm/image.png)](https://postimg.cc/6yx6B9my)
 
@@ -170,11 +170,11 @@ Lease time 720 (12 menit).
 
 ###
 
-Pada .bashrc
+Pada Jipangu .bashrc
 
 [![image.png](https://i.postimg.cc/Kz2BKSRT/image.png)](https://postimg.cc/3ytd6qjr)
 
-Pada script.sh
+Pada Jipangu script.sh
 
 [![image.png](https://i.postimg.cc/DyJ0Kpz3/image.png)](https://postimg.cc/VdwmqRMK)
 [![image.png](https://i.postimg.cc/cHCZB6gG/image.png)](https://postimg.cc/McChW6m9)
@@ -222,14 +222,57 @@ Pada Skypie script.sh
 [![image.png](https://i.postimg.cc/L85YCkqn/image.png)](https://postimg.cc/Jswztk5L)
 
 
-## NO 8
-Pada Loguetown, proxy harus bisa diakses dengan nama jualbelikapal.yyy.com dengan port yang digunakan adalah 5000 
+## NO 8,9,10
+8. Pada Loguetown, proxy harus bisa diakses dengan nama jualbelikapal.yyy.com dengan port yang digunakan adalah 5000 
+9. Agar transaksi jual beli lebih aman dan pengguna website ada dua orang, proxy dipasang autentikasi user proxy dengan enkripsi MD5 dengan dua username, yaitu luffybelikapalyyy dengan password luffy_yyy dan zorobelikapalyyy dengan password zoro_yyy 
+10. Transaksi jual beli tidak dilakukan setiap hari, oleh karena itu akses internet dibatasi hanya dapat diakses setiap hari Senin-Kamis pukul 07.00-11.00 dan setiap hari Selasa-Jum’at pukul 17.00-03.00 keesokan harinya (sampai Sabtu pukul 03.00)
 
-## NO 9
-Agar transaksi jual beli lebih aman dan pengguna website ada dua orang, proxy dipasang autentikasi user proxy dengan enkripsi MD5 dengan dua username, yaitu luffybelikapalyyy dengan password luffy_yyy dan zorobelikapalyyy dengan password zoro_yyy 
+## Jawaban
+Pada Water7, dalam '/etc/squid/squid.conf' tambahkan:
 
-## NO 10 
-Transaksi jual beli tidak dilakukan setiap hari, oleh karena itu akses internet dibatasi hanya dapat diakses setiap hari Senin-Kamis pukul 07.00-11.00 dan setiap hari Selasa-Jum’at pukul 17.00-03.00 keesokan harinya (sampai Sabtu pukul 03.00)
+```shell
+include /etc/squid/acl.conf
+http_port 5000
+visible_hostname jualbelikapal.i07.com
+
+auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwd
+auth_param basic children 5
+auth_param basic realm Proxy
+auth_param basic credentialsttl 2 hours
+auth_param basic casesensitive on
+
+acl USERS proxy_auth REQUIRED
+http_access allow AVAILABLE_WORKING1 USERS
+http_access allow AVAILABLE_WORKING2 USERS
+http_access allow AVAILABLE_WORKING3 USERS
+http_access deny all
+```
+
+Kemudian, pada '/etc/squid/acl.conf' di dalam Water7 tambahkan:
+
+```shell
+acl AVAILABLE_WORKING time MTWH 07:00-11:00
+acl AVAILABLE_WORKING time TWHF 17:00-23:59
+acl AVAILABLE_WORKING time A 00:00-03:00
+```
+
+Setelah itu tambahkan command:
+
+```shell
+htpasswd -b -c /etc/squid/passwd lufffybelikapali07 luffy_i07
+htpasswd -b /etc/squid/passwd zorobelikapali07 zoro_i07
+```
+
+###
+Pada Water7 .bashrc
+
+[![image.png](https://i.postimg.cc/CLxM4FtN/image.png)](https://postimg.cc/c6PNxNdg)
+
+Pada Water7 script.sh
+
+[![image.png](https://i.postimg.cc/dt3vy5kN/image.png)](https://postimg.cc/PNgBGzM1)
+[![image.png](https://i.postimg.cc/TwTvY0v9/image.png)](https://postimg.cc/wt4Gwhvy)
+
 
 ## NO 11
 Agar transaksi bisa lebih fokus berjalan, maka dilakukan redirect website agar mudah mengingat website transaksi jual beli kapal. Setiap mengakses google.com, akan diredirect menuju super.franky.yyy.com dengan website yang sama pada soal shift modul 2. Web server super.franky.yyy.com berada pada node Skypie 
