@@ -24,6 +24,7 @@ Pada .bashrc
 
 ![image](https://user-images.githubusercontent.com/77782259/141472142-891ac670-97eb-4ec8-a4dd-8257c7b26542.png)
 
+
 Jipangu sebagai DHCP Server.
 Gunakan 'apt-get install isc-dhcp-server'.
 
@@ -31,8 +32,9 @@ Pada .Bashrc
 
 ![image](https://user-images.githubusercontent.com/77782259/141472266-6da7944e-cd53-4ef7-818f-50f249242742.png)
 
-Water7 sebagai Proxy Server. G
-unakan 'apt-get install squid'.
+
+Water7 sebagai Proxy Server. 
+Gunakan 'apt-get install squid'.
 
 Pada .bashrc
 
@@ -65,6 +67,7 @@ Kemudian restart DHCP relay dengan command '/etc/init.d/isc-dhcp-relay restart'.
 Pada script.sh
 
 [![image.png](https://i.postimg.cc/SQwGMBCs/image.png)](https://postimg.cc/hh1xF3CW)
+
 
 Pada .bashrc
 
@@ -143,10 +146,13 @@ auto eth0
 iface eth0 inet dhcp
 ```
 
+###
+
 Checking pada 'Loguetown' pada terminal 1.
 Menggunakan command 'ip a', dapat kita lihat IP adalah '10.41.1.32' dimana masih dalam range 1.20 - 1.99.
 
 [![image.png](https://i.postimg.cc/mDtVwGT5/image.png)](https://postimg.cc/VrPjfprq)
+
 
 Lease time 360 (6 menit).
 
@@ -156,6 +162,7 @@ Checking pada 'TottoLand' pada terminal 3.
 Menggunakan command 'ip a', dapat kita lihat IP adalah '10.41.3.34' dimana masih dalam range 3.30 - 3.50.
 
 [![image.png](https://i.postimg.cc/FR3pqVJy/image.png)](https://postimg.cc/ZBY6v3Hn)
+
 
 Lease time 720 (12 menit).
 
@@ -176,6 +183,44 @@ Pada script.sh
 
 ## NO 7
 Luffy dan Zoro berencana menjadikan Skypie sebagai server untuk jual beli kapal yang dimilikinya dengan alamat IP yang tetap dengan IP [prefix IP].3.69
+
+## Jawaban
+Pada Jipangu, dalam file '/etc/dhcp/dhcpd.conf' tambahkan:
+
+```shell
+host Skypie {
+    hardware ethernet 22:5e:e9:08:bb:4e;
+    fixed-address 10.41.3.69;
+```
+
+Dimana, hardware ethernet '22:5e:e9:08:bb:4e' didapatkan menggunakan command 'ip a' di 'Skypie'
+
+Kemudian restart isc-DHCP menggunakan command 'service isc-dhcp-server restart'.
+
+Pada Skypie, dalam file '/etc/network/interfaces' tambahkan:
+
+```shell
+hwaddress ether 22:5e:e9:08:bb:4e
+```
+
+Dimana, hardware ethernet '22:5e:e9:08:bb:4e' didapatkan menggunakan command 'ip a' di 'Skypie'
+
+###
+Checking pada Skypie, terlihat IP nya sekarang '10.41.3.69':
+
+[![image.png](https://i.postimg.cc/W188rwBz/image.png)](https://postimg.cc/G4BvnGhn)
+
+###
+
+Pada Jipangu script.sh
+
+[![image.png](https://i.postimg.cc/7LCz61Dp/image.png)](https://postimg.cc/67Xqbv80)
+
+
+Pada Skypie script.sh
+
+[![image.png](https://i.postimg.cc/L85YCkqn/image.png)](https://postimg.cc/Jswztk5L)
+
 
 ## NO 8
 Pada Loguetown, proxy harus bisa diakses dengan nama jualbelikapal.yyy.com dengan port yang digunakan adalah 5000 
