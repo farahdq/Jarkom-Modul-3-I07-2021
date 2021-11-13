@@ -228,7 +228,7 @@ Pada Skypie script.sh
 10. Transaksi jual beli tidak dilakukan setiap hari, oleh karena itu akses internet dibatasi hanya dapat diakses setiap hari Senin-Kamis pukul 07.00-11.00 dan setiap hari Selasa-Jum’at pukul 17.00-03.00 keesokan harinya (sampai Sabtu pukul 03.00)
 
 ## Jawaban
-Pada Water7, dalam '/etc/squid/squid.conf' tambahkan:
+Pada Water7, dalam `/etc/squid/squid.conf` tambahkan:
 
 ```shell
 include /etc/squid/acl.conf
@@ -248,7 +248,7 @@ http_access allow AVAILABLE_WORKING3 USERS
 http_access deny all
 ```
 
-Kemudian, pada '/etc/squid/acl.conf' di dalam Water7 tambahkan:
+Kemudian, pada `/etc/squid/acl.conf` di dalam Water7 tambahkan:
 
 ```shell
 acl AVAILABLE_WORKING time MTWH 07:00-11:00
